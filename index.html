@@ -15,37 +15,26 @@
             <h1>TODO.LIST</h1>
             <div id="form-wrapper">
                 <div id="o-form">
-                    <input type="text" id="text-novo-item">
+                    <input type="text" id="text-novo-item" v-model="textonovoitem" @keyup.enter="salvarnovoitem" maxlength="20">
                     <div>
-                        <input type="checkbox" id="is-importante">
+                        <input type="checkbox" id="is-importante" v-model="novoitemimportante">
                         <label for="is-importante"> Importante</label><br>
                     </div>
-                    <button>
+                    <button @click="salvarnovoitem" v-if="textonovoitem.length > 0">
                         Salvar
                     </button>
                 </div>
-                <p id="contagem"></p>
+                <p id="contagem">{{qtdedigitada}}/20</p>
             </div>
 
             <div id="list-wrapper">
-                <div class="item">
-                    <p class="texto-item">Item a Fazer</p>
+                <div class="item" v-bind:class="{importante: item.importante, feito : item.feito}" v-for="item in lista"
+                v-on:click="item.feito = !item.feito"
+                :key="item.id">
+                    <p class="texto-item">{{ item.texto }}</p>
+
                 </div>
-                <div class="item">
-                    <p class="texto-item">Item a Fazer</p>
-                </div>
-                <div class="item feito">
-                    <p class="texto-item">Item Feito</p>
-                </div>
-                <div class="item importante">
-                    <p class="texto-item">Item Importante</p>
-                </div>
-                <div class="item feito">
-                    <p class="texto-item">Item Feito</p>
-                </div>
-                <div class="item importante">
-                    <p class="texto-item">Item Importante</p>
-                </div>
+               
 
                 
             </div>
@@ -57,8 +46,34 @@
         Vue.createApp({
             data() {
                 return {
+                    textonovoitem:"",
+                    novoitemimportante:false,
+                    lista:[],
                 }
             },
+            methods: {
+                salvarnovoitem(){
+                    if(this.textonovoitem.length > 0){
+                        let novoitem = {
+                        id : new Date().getTime(),
+                        texto: this.textonovoitem,
+                        importante: this.novoitemimportante,
+                        feito:false,
+                    }
+                    this.lista.push(novoitem)
+                    this.textonovoitem = '';
+                    this.novoitemimportante = false; 
+                    }
+                    
+                }
+            },
+            computed:{
+                qtdedigitada(){
+                return this.textonovoitem.length
+                }
+            }
+
+
         }).mount("#app")
     </script>
 
