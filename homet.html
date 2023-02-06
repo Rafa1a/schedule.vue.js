@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <link rel="stylesheet" href="estilo.css">
+    <title>Vite + Vue</title>
+  </head>
+  <body>
+    <div id="app" @load="salvarnovoitem"> <h1 id="h1">App Clima</h1>
+
+      <div class="lista" @load="salvarnovoitem">
+        <div class="card" v-for="cidade in cidades" :key="cidade.id" >
+          <div class="card-img"></div>
+          <h3>{{ cidade.name }}</h3>
+          <h4>{{ cidade.description }}</h4>
+          <div class="temperatura">{{ cidade.temp }}º</div>
+        </div>
+        
+    </div>
+    <script src="https://unpkg.com/vue@3.0.0-rc.5/dist/vue.global.js"></script>
+    <script>
+     
+     
+     Vue.createApp({
+      data() {
+      
+      return {
+        cidades: [],
+      }
+      
+    },
+    computed: {
+            salvarnovoitem(){
+                let novoitem = {
+                    id: 8429,
+                    name: "Rio de Janeiro",
+                    description: "Ensolarado",
+                    icon: "01d",
+                    temp: "25",
+            }
+            this.cidades.push(novoitem)
+                
+        }
+    },
+}).mount("#app")
+    
+    </script>
+  </body>
+</html>
